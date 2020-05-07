@@ -1,22 +1,22 @@
-import { html } from '../lib/lit-html.js';
+import { html } from '../lib/lit-element.js';
 import AbstractElement from './AbstractElement.js';
-import { store } from '../state.js'
 
 export default class CounterControl extends AbstractElement {
-    view() {
+    render() {
         return html`
         <link rel="stylesheet" type="text/css" href="../css/counter-control.css" />
+        <h1>Hmmm</h1>
         <button @click=${this.onCount.bind(this)}>count</button>
         <button @click=${this.onReset.bind(this)}>reset</button>
         `;
     }
 
     onCount() {
-      store.dispatch({ type: 'ON_COUNT' });
+      this.dispatch({ type: 'ON_COUNT' });
     }
 
     onReset() {
-      store.dispatch({ type: 'ON_RESET' });
+      this.dispatch({ type: 'ON_RESET' });
     }
 }
 

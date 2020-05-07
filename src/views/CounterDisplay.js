@@ -1,8 +1,8 @@
-import { html } from '../lib/lit-html.js';
+import { html } from '../lib/lit-element.js';
 import AbstractElement from './AbstractElement.js';
 
 export default class CounterDisplay extends AbstractElement {
-    view() {
+    render() {
         return html`
         <H1>${this.state.settings.count}</h1>
         `;

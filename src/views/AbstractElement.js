@@ -1,15 +1,7 @@
-import { render } from '../lib/lit-html.js';
+import { LitElement } from '../lib/lit-element.js';
 import { store } from '../state.js'
 
-export default class AbstractElement extends HTMLElement {
-    constructor() {
-        super();
-        this.root = this.attachShadow({ mode: 'open' });
-    }
-    log(methodName) { 
-        return `${this.constructor.name}.${methodName}`
-    }
-
+export default class AbstractElement extends LitElement {
     connectedCallback() { 
         this.unsubscribe = store.subscribe(_ => this.triggerViewUpdate());
         this.triggerViewUpdate();
@@ -20,18 +12,11 @@ export default class AbstractElement extends HTMLElement {
     }
 
     triggerViewUpdate() { 
-        this.state = this.extractState(store.getState());
-        const template = this.view();
-        render(template, this.root);
+        this.state = store.getState();
+        this.update();
     }
 
-    getRenderTarget() { 
-        return this;
+    dispatch(arg){
+        store.dispatch(arg);
     }
-
-    extractState(reduxState) { 
-        return reduxState;
-    }
-
-    view() { }
 }
