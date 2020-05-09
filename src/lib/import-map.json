@@ -1,6 +1,6 @@
 {
   "imports": {
-    "lit-html": "./lit-html.js",
+    "lit-element": "./lit-element.js",
     "redux": "./redux.js"
   }
 }
