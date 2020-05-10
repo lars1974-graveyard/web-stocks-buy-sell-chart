@@ -1,4 +1,4 @@
-import { LitElement } from '../lib/lit-element.js';
+import { LitElement } from 'lit-element';
 import { store } from '../state.js'
 
 export default class AbstractElement extends LitElement {

@@ -1,4 +1,4 @@
-import { html } from '../lib/lit-element.js';
+import { html } from 'lit-element';
 import AbstractElement from './AbstractElement.js';
 
 export default class CounterDisplay extends AbstractElement {

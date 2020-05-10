@@ -1,4 +1,4 @@
-import { createStore, combineReducers } from "./lib/redux.js";
+import { createStore, combineReducers } from "redux";
 
 
 const counter = { count: 0 }
