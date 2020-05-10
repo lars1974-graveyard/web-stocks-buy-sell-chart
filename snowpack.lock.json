@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "lit-element": "https://cdn.pika.dev/pin/lit-element@v2.3.1-c9v17B91nfmKK34WUbh0/lit-element.js",
+    "redux": "https://cdn.pika.dev/pin/redux@v4.0.5-Mutd3V37YyQJvKabkr2B/redux.js"
+  }
+}
