@@ -1,5 +1,6 @@
 import { html } from 'lit-element';
 import AbstractElement from './AbstractElement.js';
+import { fetchValuta } from '../restclient.js'
 
 export default class CounterControl extends AbstractElement {
     render() {
@@ -20,6 +21,7 @@ export default class CounterControl extends AbstractElement {
 
     onCount() {
       this.dispatch({ type: 'ON_COUNT' });
+      fetchValuta();
     }
 
     onReset() {

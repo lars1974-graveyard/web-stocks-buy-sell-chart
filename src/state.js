@@ -11,6 +11,9 @@ const settings = (state = counter, action) => {
     case 'ON_RESET':
       state.count = 0
       return state;
+    case 'ON_RATES_UPDATES':
+      state.rates = action.rates;
+        return state;
     default:
       return state;
   }
