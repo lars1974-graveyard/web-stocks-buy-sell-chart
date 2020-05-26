@@ -12,6 +12,7 @@ export default class CounterDisplay extends AbstractElement {
             console.dir(data);
             var json = "[ [ \" ja \", \" nej \"], ";
             var vals = Object.values(data);
+            
             Object.keys(data).forEach(function(key,index) {  
                 console.log(key);
                 if(index != 0) json = json + ", "

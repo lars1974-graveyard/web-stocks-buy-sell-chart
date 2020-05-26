@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "install": "snowpack install",
-    "start": "snowpack dev",
-    "build": "snowpack build",
-    "test": "snowpack dev --config snowpack.test-config.json"
+    "app-install": "snowpack install",
+    "app-start": "snowpack dev",
+    "app-build": "snowpack build",
+    "app-test": "snowpack dev --config snowpack.test-config.json"
   },
   "webDependencies": {
     "lit-element": "^2.3.1",
