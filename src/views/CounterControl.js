@@ -3,6 +3,8 @@ import AbstractElement from './AbstractElement.js';
 import { fetchValuta } from '../restclient.js'
 import '@material/mwc-button';
 import '@material/mwc-icon';
+import '@material/mwc-top-app-bar-fixed';
+
 
 export default class CounterControl extends AbstractElement {
     render() {

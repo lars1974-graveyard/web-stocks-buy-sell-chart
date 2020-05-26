@@ -2,20 +2,69 @@
 
 <head>
     <title>Sample</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./global.css">
+
 </head>
 
-<body>
+<body class="unresolved">
+    <mwc-top-app-bar-fixed id="header">
+        <div slot="title">
+
+            <span>Really cool header</span>
+        </div>
+        <hr class="material-divider">
+    </mwc-top-app-bar-fixed>
     <main>
-        <article>
-            <div>
-                <counter-control/>
-            </div>
-            <div>
-                <counter-display/>
-            </div>
-        </article>
+        <div id="banner">
+            Edit the code of this demo by <a href="https://glitch.com/edit/#!/remix/mwc-demos">remixing</a> this
+            project,
+            or view our API demos <a
+                href="https://material-components.github.io/material-components-web-components/demos/">here</a>!
+            Don't want to use any bundling tools? Check out the <a href="./unbundled.html">unbundled version</a>!
+        </div>
+        <div class="sections-wrapper">
+            <!-- Button -->
+            <section class="component-section">
+                <div>
+                    <div class="section-header">
+                        <a href="https://github.com/material-components/material-components-web-components/tree/master/packages/button"
+                            target="_blank">
+                            Button
+                            <mwc-icon>open_in_new</mwc-icon>
+                        </a>
+                    </div>
+
+                    <style>
+                        .component-section .button {
+                            /* --mdc-theme-primary: red; */
+                        }
+                    </style>
+
+                    <div class="button component-wrapper">
+                        <mwc-button raised="" label="button"></mwc-button>
+                        <mwc-button label="button"></mwc-button>
+                        <mwc-button outlined="" label="button"></mwc-button>
+                    </div>
+                    <article>
+                        <div>
+                            <counter-control />
+                        </div>
+                        <div>
+                            <counter-display />
+                        </div>
+                    </article>
+                </div>
+                
+        
+            </section>
+        </div>
     </main>
     <script src="/_dist_/app.js" type="module"></script>
 </body>
+
 </html>
