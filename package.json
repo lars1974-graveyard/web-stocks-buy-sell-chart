@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "dev-install": "npm install --only=dev",
     "app-install": "snowpack install",
     "app-start": "snowpack dev",
     "app-build": "snowpack build",
