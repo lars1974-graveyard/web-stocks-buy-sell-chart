@@ -1,14 +1,16 @@
 import { html } from 'lit-element';
-import AbstractElement from './AbstractElement.js';
-import { fetchValuta } from '../restclient.js'
+import AbstractElement from '../AbstractElement.js';
+import { fetchValuta } from '../../restclient.js'
 import '@material/mwc-button';
 import '@material/mwc-icon';
 import '@material/mwc-top-app-bar-fixed';
 
 
+
 export default class CounterControl extends AbstractElement {
     render() {
         return html`
+
         <style>
         button  {
           border-radius: 5px;
@@ -18,9 +20,9 @@ export default class CounterControl extends AbstractElement {
         }
         </style>
         <h1>Hmmm</h1>
+        <button type="button" class="btn btn-primary">LARS</button>
         <button @click=${this.onCount.bind(this)}>count</button>
         <button @click=${this.onReset.bind(this)}>reset</button>
-        <mwc-button raised label="raised" icon="code"></mwc-button>
         `;
     }
 
