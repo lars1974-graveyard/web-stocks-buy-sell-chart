@@ -5,8 +5,9 @@ export default class Frontpage extends AbstractElement {
     render() {
         return html`
             <h1>FrontPage</h1>
-            <a href="/currency-exchange">Currency Exchange</a>
-            <a href="/vaadin">Vaadin</a>
+            <a href="/currency-exchange">Currency Exchange</a><br>
+            <a href="/vaadin">Vaadin</a><br>
+            <a href="/polyelements">Polymer Element</a><br>
         `;
     }
 }

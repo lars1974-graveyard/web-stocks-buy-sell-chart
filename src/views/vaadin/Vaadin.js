@@ -3,6 +3,7 @@ import AbstractElement from '../AbstractElement.js';
 import '@vaadin/vaadin-button/vaadin-button';
 import '@vaadin/vaadin-menu-bar/vaadin-menu-bar';
 
+
 export default class Vaadin extends AbstractElement {
     render() {
         const bar = document.createElement('vaadin-menu-bar');
@@ -32,7 +33,8 @@ export default class Vaadin extends AbstractElement {
     
 
         return html`
-        
+
+     
         <h1>vaadin</h1>
         <vaadin-button theme="primary" @click="${this.updated.bind(this)}">Primary</vaadin-button>
         <vaadin-menu-bar theme="tertiary dark" .items="${items}" style="height: 100px;"></vaadin-menu-bar>
