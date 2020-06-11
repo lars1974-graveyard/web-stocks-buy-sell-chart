@@ -19,13 +19,16 @@ const settings = (state = counter, action) => {
   }
 }
 
-const stocksInit = { transactions: [], prices: {} }
+const stocksInit = { transactions: [], prices: {}, selectedStock: ''}
 
 const stocks = (state = stocksInit, action) => {
   switch (action.type) {
     case 'TRANSACTIONS_UPLOADED':
       state.transactions = action.transactions
       return state;
+      case 'STOCK_SELECTED':
+        state.selectedStock = action.stock
+        return state;
     case 'STOCK_PRICES_UPDATED':
       state.prices[action.prices["icin"]] = action.prices
       return state;

@@ -3,6 +3,7 @@ import AbstractElement from '../AbstractElement.js';
 import '@vaadin/vaadin-button/vaadin-button';
 import '@vaadin/vaadin-combo-box/vaadin-combo-box';
 import '@vaadin/vaadin-menu-bar/vaadin-menu-bar';
+import '@vaadin/vaadin-grid/vaadin-grid';
 import { parse } from './transactionsParser.js';
 import { stockTransactions, listStocksNames } from './transactionQueries.js';
 import { fetchStockHistory } from './pricesQueries.js';
@@ -11,12 +12,20 @@ import { store } from '../../state.js'
 export default class StocksView extends AbstractElement {
     render() {
         var stockNames = listStocksNames();
-
+        var stock = this.state.stocks.selectedStock;
+        console.log(stock);
+        var transactions = stockTransactions(stock).transactions;
         return html`
         <vaadin-button theme="primary" @click="${this.updated.bind(this)}">Load</vaadin-button>
         <input id="image-file" type="file" @change="${this.savePhoto.bind(this)}" >
         <vaadin-combo-box label="Stocks" @change="${this.stockSelect.bind(this)}" .items="${stockNames}" item-value-path="isin" item-label-path="stock" ></vaadin-combo-box>
-        
+        <vaadin-grid .items="${transactions}" style="height: 300px;width: 80%;">
+        <vaadin-grid-column path="stock" header="stock"></vaadin-grid-column>
+        <vaadin-grid-column path="action" header="action"/></vaadin-grid-column>
+        <vaadin-grid-column path="quatity" header="quatity"/></vaadin-grid-column>
+        <vaadin-grid-column path="price" header="price"/></vaadin-grid-column>
+        <vaadin-grid-column path="day" header="day"/></vaadin-grid-column>
+        </vaadin-grid>
         <h1>vaadin</h1>
         `;
     }
@@ -75,6 +84,7 @@ export default class StocksView extends AbstractElement {
         console.log("stockSelect");
         console.dir(event.target.value);
         var stockTx = stockTransactions(event.target.value);
+        store.dispatch({ type: 'STOCK_SELECTED', stock: event.target.value });
         console.dir(stockTx);
     }
 
