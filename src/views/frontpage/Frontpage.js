@@ -19,6 +19,7 @@ export default class Frontpage extends AbstractElement {
             <a href="/currency-exchange">Currency Exchange</a><br>
             <a href="/vaadin">Vaadin</a><br>
             <a href="/polyelements">Polymer Element</a><br>
+            <a href="/stocks">Stocks</a><br>
             <google-signin client-id="227028281354-s8mdjp610ufcasnsde89h3ebjqlqrfe9.apps.googleusercontent.com"></google-signin>
             <div id="sa">${aware}</div>
             `;

@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "mount:test": "mount test --to .",
-    "mount:src": "mount src --to .",
+    "mount:test": "mount test --to /",
+    "mount:src": "mount src --to /",
     "mount:web_modules": "mount web_modules",
     "build:js": "cat"
   },
