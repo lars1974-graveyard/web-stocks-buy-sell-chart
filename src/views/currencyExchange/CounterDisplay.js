@@ -1,5 +1,5 @@
 import { html } from 'lit-element';
-import AbstractElement from './AbstractElement.js';
+import AbstractElement from '../AbstractElement.js';
 import '@google-web-components/google-chart';
 
 
