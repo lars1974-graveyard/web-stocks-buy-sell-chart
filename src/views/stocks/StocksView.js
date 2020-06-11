@@ -10,14 +10,13 @@ import { store } from '../../state.js'
 
 export default class StocksView extends AbstractElement {
     render() {
-        var stockNames = list.stockNames();
-
-
+        var stockNames = listStocksNames();
 
         return html`
-        <vaadin-combo-box id="vcombo01" label="Stocks" .items="${stockNames}"></vaadin-combo-box>
-        <vaadin-button theme="primary" @click="${this.updated.bind(this)}">Primary</vaadin-button>
-        <input id="image-file" type="file" @change=${this.savePhoto.bind(this)}" >
+        <vaadin-button theme="primary" @click="${this.updated.bind(this)}">Load</vaadin-button>
+        <input id="image-file" type="file" @change="${this.savePhoto.bind(this)}" >
+        <vaadin-combo-box label="Stocks" @change="${this.stockSelect.bind(this)}" .items="${stockNames}" item-value-path="isin" item-label-path="stock" ></vaadin-combo-box>
+        
         <h1>vaadin</h1>
         `;
     }
@@ -72,6 +71,12 @@ export default class StocksView extends AbstractElement {
         reader.readAsText(file);
     }
 
+    stockSelect(event) {
+        console.log("stockSelect");
+        console.dir(event.target.value);
+        var stockTx = stockTransactions(event.target.value);
+        console.dir(stockTx);
+    }
 
 }
 
