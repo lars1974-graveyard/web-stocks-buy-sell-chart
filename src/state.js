@@ -30,7 +30,7 @@ const stocks = (state = stocksInit, action) => {
         state.selectedStock = action.stock
         return state;
     case 'STOCK_PRICES_UPDATED':
-      state.prices[action.prices["icin"]] = action.prices
+      state.prices[action.result.isin] = action.result.prices
       return state;
     default:
       return state;

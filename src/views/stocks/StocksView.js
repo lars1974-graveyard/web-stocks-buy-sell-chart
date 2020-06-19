@@ -1,92 +1,115 @@
-import { html } from 'lit-element';
+import { html, css } from 'lit-element';
 import AbstractElement from '../AbstractElement.js';
 import '@vaadin/vaadin-button/vaadin-button';
 import '@vaadin/vaadin-combo-box/vaadin-combo-box';
 import '@vaadin/vaadin-menu-bar/vaadin-menu-bar';
 import '@vaadin/vaadin-grid/vaadin-grid';
 import { parse } from './transactionsParser.js';
-import { stockTransactions, listStocksNames } from './transactionQueries.js';
+import { stockTransactions, listStocksNames, formatTransactions, collapseTransactionsOnSameDay } from './transactionQueries.js';
 import { fetchStockHistory } from './pricesQueries.js';
+import { drawchart } from './chartData.js';
 import { store } from '../../state.js'
 
 export default class StocksView extends AbstractElement {
-    render() {
-        var stockNames = listStocksNames();
-        var stock = this.state.stocks.selectedStock;
-        console.log(stock);
-        var transactions = stockTransactions(stock).transactions;
-        return html`
-        <vaadin-button theme="primary" @click="${this.updated.bind(this)}">Load</vaadin-button>
-        <input id="image-file" type="file" @change="${this.savePhoto.bind(this)}" >
-        <vaadin-combo-box label="Stocks" @change="${this.stockSelect.bind(this)}" .items="${stockNames}" item-value-path="isin" item-label-path="stock" ></vaadin-combo-box>
-        <vaadin-grid .items="${transactions}" style="height: 300px;width: 80%;">
-        <vaadin-grid-column path="stock" header="stock"></vaadin-grid-column>
+  constructor() {
+    super();
+    google.charts.load('current', { 'packages': ['corechart'] });
+  }
+  render() {
+    this.stock = this.state.stocks.selectedStock;
+    this.history = this.state.stocks.prices[this.stock]
+    this.totalAmount = ""
+    this.transactions = [];
+
+
+    if (this.stock && this.history) {
+      this.transactions = stockTransactions(this.stock).transactions;
+      this.collapsedTransactions = collapseTransactionsOnSameDay(this.transactions);
+      this.totalAmount = -stockTransactions(this.stock).totalAmount;
+      setTimeout(drawchart.bind(this), 500, this.shadowRoot.getElementById("piechart"),this.stock, this.history.prices, this.collapsedTransactions);
+
+    }
+
+    return html`
+        <meta name="viewport" content="width=device-width" />
+        <div class="grid">
+        <input id="image-file" grid-component type="file" @change="${this.addFile.bind(this)} style="grid-area: file;" >
+       
+        
+        <vaadin-combo-box class="stock-selector grid-component" style="grid-area: stoc;" label="Stocks" @change="${this.stockSelect.bind(this)}" .items="${listStocksNames()}" item-value-path="isin" item-label-path="stock" ></vaadin-combo-box>
+        <div id="piechart" style="grid-area: char;"></div>
+
+        <vaadin-grid id="stockgrid" class="stockgrid grid-component" style="grid-area: tabl;" .items="${formatTransactions(this.transactions)}" >
+        <vaadin-grid-column path="date" header="date"/></vaadin-grid-column>
         <vaadin-grid-column path="action" header="action"/></vaadin-grid-column>
-        <vaadin-grid-column path="quatity" header="quatity"/></vaadin-grid-column>
-        <vaadin-grid-column path="price" header="price"/></vaadin-grid-column>
-        <vaadin-grid-column path="day" header="day"/></vaadin-grid-column>
+        <vaadin-grid-column path="price" header="price" text-align="end"/></vaadin-grid-column>
+        
+        <vaadin-grid-column path="quantity" header="quantity" text-align="end"/></vaadin-grid-column>
+        <vaadin-grid-column path="summedQuantity" header="Owned" text-align="end"/></vaadin-grid-column>
+        <vaadin-grid-column path="amount" header="amount" text-align="end"/></vaadin-grid-column>
+        <vaadin-grid-column path="saldo" header="saldo" text-align="end"/></vaadin-grid-column>
         </vaadin-grid>
-        <h1>vaadin</h1>
+        </div>
         `;
+  }
+
+
+
+  static get styles() {
+    return [css` 
+
+    :host {
+      background-color: cyan;
+    }
+    .grid {    
+        height: auto;
+        width: 90%;
+        margin: auto;
+        display: grid;
+        grid-gap: 2px;  
+        grid-template-columns: 10fr 10fr;
+        grid-template-rows: auto auto auto;
+        grid-template-areas: "file stoc" "char char" "tabl tabl";
+        
     }
 
-/*
+    .stockgrid {
+      width: 100%;
+      
+    }
 
-<script>
-  customElements.whenDefined('vaadin-combo-box').then(function() {
-    const departments = [
-      {id: '1', name: 'Product'},
-      {id: '2', name: 'Service'},
-      {id: '3', name: 'HR'},
-      {id: '4', name: 'Accounting'}
-    ];
-    const comboBox = document.querySelectorAll('vaadin-combo-box');
-    comboBox.forEach(function(combo) {
-      combo.items = departments;
-      combo.itemValuePath = 'id';
-      combo.itemLabelPath = 'name';
-      combo.value = '1';
+    .stock-selector {
+      width: 50%;
+    }
+
+
+    #piechart {
+      width: 100%;
+      height: 600px;
+    }
+
+    .grid-component {
+        //background-color: red;
+    }
+    `];
+  }
+
+  
+
+  addFile(event) {
+    var file = this.shadowRoot.querySelector('#image-file').files[0];
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+      store.dispatch({ type: 'TRANSACTIONS_UPLOADED', transactions: parse(event.target.result) });
     });
-  });
-</script>
+    reader.readAsText(file);
+  }
 
-
-
-<select name="cars" id="cars">
-  <option value="volvo">Volvo</option>
-  <option value="saab">Saab</option>
-  <option value="mercedes">Mercedes</option>
-  <option value="audi">Audi</option>
-</select>
-*/
-
-    updated(event){
-        console.log("updated");
-        console.log(listStocksNames());
-    }
-
-    savePhoto(event) {
-
-        console.log("savephot")
-        var file = this.shadowRoot.querySelector('#image-file').files[0];
-             
-        const reader = new FileReader();
-        reader.addEventListener('load', (event) => {
-          store.dispatch({ type: 'TRANSACTIONS_UPLOADED', transactions: parse(event.target.result) });
-
-          //listStocksNames()
-          console.log(stockTransactions("DK0010274414"));
-        });
-        reader.readAsText(file);
-    }
-
-    stockSelect(event) {
-        console.log("stockSelect");
-        console.dir(event.target.value);
-        var stockTx = stockTransactions(event.target.value);
-        store.dispatch({ type: 'STOCK_SELECTED', stock: event.target.value });
-        console.dir(stockTx);
-    }
+  stockSelect(event) {
+    var stockTx = stockTransactions(event.target.value);
+    store.dispatch({ type: 'STOCK_SELECTED', stock: event.target.value });
+    var history = fetchStockHistory(event.target.value)
+  }
 
 }
 

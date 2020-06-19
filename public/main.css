@@ -8,6 +8,14 @@ main {
     width: 100vw;
 }
 
+header {
+        background-color: rgb(245, 245, 245);
+        color: rgb(0, 0, 0, 0.87);
+        padding: 10px;
+        text-align: center;
+        font-size: 12px;
+      }
+
 article {
     text-align: center;
 }

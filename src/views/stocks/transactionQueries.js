@@ -22,13 +22,40 @@ export const listStocksNames = () => {
 
 export const stockTransactions = (isin) => {
     var transactions = store.getState().stocks.transactions
-    var filtered = transactions.filter(function(trans){
+    transactions = transactions.filter(function(trans){
         return trans.isin == isin;
     });
+  
 
-    var totalAmount = sumByProperty(filtered, "amount")
-    var transactionHistory = { transactions: filtered, totalAmount: totalAmount }
+    var summedQuantity = 0;
+    var summedSpendings = 0;
+    for(var i = 0; i< transactions.length; i++){
+        if(transactions[i].action == "Buy") summedQuantity = summedQuantity + transactions[i].quantity;
+        if(transactions[i].action == "Sell") summedQuantity = summedQuantity - transactions[i].quantity;
+        transactions[i].summedQuantity = summedQuantity;
+        summedSpendings = summedSpendings+transactions[i].amount
+        transactions[i].saldo = summedSpendings;
+    }
+
+    var totalAmount = sumByProperty(transactions, "amount")
+    var transactionHistory = { transactions: transactions, totalAmount: totalAmount }
    return transactionHistory;
+}
+
+export const formatTransactions = (transactions) =>{
+    var t2 = JSON.parse(JSON.stringify(transactions));
+    for(var i = 0; i< t2.length; i++){
+       t2[i].amount = t2[i].amount.toFixed(2);
+       t2[i].saldo = t2[i].saldo.toFixed(2);
+       t2[i].price = t2[i].price.toFixed(2);
+    }
+    return t2;
+}
+
+export const collapseTransactionsOnSameDay = (transactions) =>{
+    var t2 = JSON.parse(JSON.stringify(transactions));
+   
+    return t2
 }
 
 export const sumByProperty =  (items, prop) => {
@@ -36,4 +63,7 @@ export const sumByProperty =  (items, prop) => {
         return a + b[prop];
     }, 0);
 }
+
+
+
 

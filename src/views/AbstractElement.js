@@ -14,9 +14,12 @@ export default class AbstractElement extends LitElement {
     triggerViewUpdate() { 
         this.state = store.getState();
         this.update();
+        
     }
 
     dispatch(arg){
         store.dispatch(arg);
     }
+
+    postUpdate(){}
 }
