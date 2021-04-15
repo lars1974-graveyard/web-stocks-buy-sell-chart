@@ -16,7 +16,7 @@ export const listStocksNames = () => {
             t.isin === stockList.isin && t.stock === stockList.stock
         ))
     )
-
+    stockList.sort((a, b) => (a.stock > b.stock) ? 1 : -1)
     return stockList;
 }
 

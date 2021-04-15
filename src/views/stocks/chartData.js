@@ -72,6 +72,7 @@ export const createData = (prices, transactions) => {
     else array.push([date, priceOndate, nonPoint, null, value, null, null, null])
   }
 
+  console.dir(array)
   return array;
 }
 
